@@ -140,7 +140,7 @@ bool LinkedListCollection::importFromCsv(const string& filename) {
         string gpaStr = line.substr(p2 + 1);
 
         Student s;
-        s.id = stoi(idStr);
+        s.id = stoi(idStr);  
         s.name = name;
         s.gpa = stod(gpaStr);
 
