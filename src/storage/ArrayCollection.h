@@ -4,9 +4,7 @@
 #include <vector>
 #include <string>
 #include "Collection.h"
-
 using namespace std;
-
 class ArrayCollection : public Collection {
 public:
     ArrayCollection() = default;
@@ -28,4 +26,4 @@ private:
     vector<Student> students;
 };
 
-#endif // ARRAY_COLLECTION_H
+#endif
