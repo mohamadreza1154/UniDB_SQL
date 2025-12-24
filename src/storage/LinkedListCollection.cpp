@@ -1,6 +1,7 @@
 #include "LinkedListCollection.h"
 #include <fstream>
 #include <sstream>
+using namespace std;
 
 LinkedListCollection::LinkedListCollection()
     : head(nullptr), tail(nullptr), size(0) {
@@ -66,8 +67,8 @@ Student* LinkedListCollection::findById(int id) {
     return &node->data;
 }
 
-std::vector<Student> LinkedListCollection::findAll() const {
-    std::vector<Student> result;
+vector<Student> LinkedListCollection::findAll() const {
+    vector<Student> result;
     result.reserve(size);
     Node* cur = head;
     while (cur) {
@@ -77,19 +78,19 @@ std::vector<Student> LinkedListCollection::findAll() const {
     return result;
 }
 
-std::vector<Student> LinkedListCollection::filter(const std::string& field,
-                                                  const std::string& value) const {
-    std::vector<Student> result;
+vector<Student> LinkedListCollection::filter(const string& field,
+                                                  const string& value) const {
+    vector<Student> result;
     Node* cur = head;
     while (cur) {
         const Student& s = cur->data;
         if (field == "id") {
-            int v = std::stoi(value);
+            int v = stoi(value);
             if (s.id == v) result.push_back(s);
         } else if (field == "name") {
             if (s.name == value) result.push_back(s);
         } else if (field == "gpa") {
-            double v = std::stod(value);
+            double v = stod(value);
             if (s.gpa == v) result.push_back(s);
         }
         cur = cur->next;
@@ -97,11 +98,11 @@ std::vector<Student> LinkedListCollection::filter(const std::string& field,
     return result;
 }
 
-std::size_t LinkedListCollection::count() const {
+size_t LinkedListCollection::count() const {
     return size;
 }
 
-double LinkedListCollection::sum(const std::string& field) const {
+double LinkedListCollection::sum(const string& field) const {
     double total = 0.0;
     Node* cur = head;
     while (cur) {
@@ -116,32 +117,32 @@ double LinkedListCollection::sum(const std::string& field) const {
     return total;
 }
 
-double LinkedListCollection::average(const std::string& field) const {
+double LinkedListCollection::average(const string& field) const {
     if (size == 0) return 0.0;
     double s = sum(field);
     return s / static_cast<double>(size);
 }
 
-bool LinkedListCollection::importFromCsv(const std::string& filename) {
-    std::ifstream in(filename);
+bool LinkedListCollection::importFromCsv(const string& filename) {
+    ifstream in(filename);
     if (!in.is_open()) return false;
 
-    std::string line;
-    while (std::getline(in, line)) {
+    string line;
+    while (getline(in, line)) {
         if (line.empty()) continue;
 
-        std::size_t p1 = line.find(',');
-        std::size_t p2 = line.find(',', p1 + 1);
-        if (p1 == std::string::npos || p2 == std::string::npos) continue;
+        size_t p1 = line.find(',');
+        size_t p2 = line.find(',', p1 + 1);
+        if (p1 == string::npos || p2 == string::npos) continue;
 
-        std::string idStr  = line.substr(0, p1);
-        std::string name   = line.substr(p1 + 1, p2 - p1 - 1);
-        std::string gpaStr = line.substr(p2 + 1);
+        string idStr  = line.substr(0, p1);
+        string name   = line.substr(p1 + 1, p2 - p1 - 1);
+        string gpaStr = line.substr(p2 + 1);
 
         Student s;
-        s.id = std::stoi(idStr);
+        s.id = stoi(idStr);
         s.name = name;
-        s.gpa = std::stod(gpaStr);
+        s.gpa = stod(gpaStr);
 
         insertOne(s);
     }
