@@ -20,7 +20,7 @@ bool TransactionStack::canRollback() const {
 }
 
 vector<Command> TransactionStack::popAllUndo() {
-    std::vector<Command> copy = undoLog;
+    vector<Command> copy = undoLog;
     undoLog.clear();
     active = false;
     return copy;
