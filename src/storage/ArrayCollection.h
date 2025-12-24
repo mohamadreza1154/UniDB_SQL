@@ -1,13 +1,16 @@
-#ifndef LINKED_LIST_COLLECTION_H
-#define LINKED_LIST_COLLECTION_H
+#ifndef ARRAY_COLLECTION_H
+#define ARRAY_COLLECTION_H
+
 #include <vector>
 #include <string>
 #include "Collection.h"
+
 using namespace std;
-class LinkedListCollection : public Collection {
+
+class ArrayCollection : public Collection {
 public:
-    LinkedListCollection();
-    ~LinkedListCollection() override;
+    ArrayCollection() = default;
+    ~ArrayCollection() override = default;
 
     void insertOne(const Student& student) override;
     bool deleteOneById(int id) override;
@@ -22,19 +25,7 @@ public:
     bool importFromCsv(const string& filename) override;
 
 private:
-    struct Node {
-        Student data;
-        Node* prev;
-        Node* next;
-        explicit Node(const Student& s) : data(s), prev(nullptr), next(nullptr) {}
-    };
-
-    Node* head;
-    Node* tail;
-    size_t size;
-
-    Node* findNodeById(int id) const;
-    void clear();
+    vector<Student> students;
 };
 
-#endif
+#endif // ARRAY_COLLECTION_H
