@@ -2,13 +2,13 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
-
+using namespace std;
 void ArrayCollection::insertOne(const Student& student) {
     students.push_back(student);
 }
 
 bool ArrayCollection::deleteOneById(int id) {
-    auto it = std::find_if(students.begin(), students.end(),
+    auto it = find_if(students.begin(), students.end(),
                            [id](const Student& s) { return s.id == id; });
     if (it != students.end()) {
         students.erase(it);
@@ -18,7 +18,7 @@ bool ArrayCollection::deleteOneById(int id) {
 }
 
 Student* ArrayCollection::findById(int id) {
-    auto it = std::find_if(students.begin(), students.end(),
+    auto it = find_if(students.begin(), students.end(),
                            [id](const Student& s) { return s.id == id; });
     if (it != students.end()) {
         return &(*it);
@@ -26,16 +26,16 @@ Student* ArrayCollection::findById(int id) {
     return nullptr;
 }
 
-std::vector<Student> ArrayCollection::findAll() const {
+vector<Student> ArrayCollection::findAll() const {
     return students;
 }
 
-std::vector<Student> ArrayCollection::filter(const std::string& field,
-                                             const std::string& value) const {
-    std::vector<Student> result;
+vector<Student> ArrayCollection::filter(const string& field,
+                                             const string& value) const {
+    vector<Student> result;
     for (const auto& s : students) {
         if (field == "id") {
-            int v = std::stoi(value);
+            int v = stoi(value);
             if (s.id == v) {
                 result.push_back(s);
             }
@@ -44,7 +44,7 @@ std::vector<Student> ArrayCollection::filter(const std::string& field,
                 result.push_back(s);
             }
         } else if (field == "gpa") {
-            double v = std::stod(value);
+            double v = stod(value);
             if (s.gpa == v) {
                 result.push_back(s);
             }
@@ -53,11 +53,11 @@ std::vector<Student> ArrayCollection::filter(const std::string& field,
     return result;
 }
 
-std::size_t ArrayCollection::count() const {
+size_t ArrayCollection::count() const {
     return students.size();
 }
 
-double ArrayCollection::sum(const std::string& field) const {
+double ArrayCollection::sum(const string& field) const {
     double total = 0.0;
     if (field == "gpa") {
         for (const auto& s : students) {
@@ -71,8 +71,8 @@ double ArrayCollection::sum(const std::string& field) const {
     return total;
 }
 
-double ArrayCollection::average(const std::string& field) const {
-    std::size_t n = students.size();
+double ArrayCollection::average(const string& field) const {
+    size_t n = students.size();
     if (n == 0) {
         return 0.0;
     }
@@ -80,26 +80,26 @@ double ArrayCollection::average(const std::string& field) const {
     return s / static_cast<double>(n);
 }
 
-bool ArrayCollection::importFromCsv(const std::string& filename) {
-    std::ifstream in(filename);
+bool ArrayCollection::importFromCsv(const string& filename) {
+    ifstream in(filename);
     if (!in.is_open()) return false;
 
-    std::string line;
-    while (std::getline(in, line)) {
+    string line;
+    while (getline(in, line)) {
         if (line.empty()) continue;
 
-        std::size_t p1 = line.find(',');
-        std::size_t p2 = line.find(',', p1 + 1);
-        if (p1 == std::string::npos || p2 == std::string::npos) continue;
+        size_t p1 = line.find(',');
+        size_t p2 = line.find(',', p1 + 1);
+        if (p1 == string::npos || p2 == string::npos) continue;
 
-        std::string idStr  = line.substr(0, p1);
-        std::string name   = line.substr(p1 + 1, p2 - p1 - 1);
-        std::string gpaStr = line.substr(p2 + 1);
+        string idStr  = line.substr(0, p1);
+        string name   = line.substr(p1 + 1, p2 - p1 - 1);
+        string gpaStr = line.substr(p2 + 1);
 
         Student s;
-        s.id = std::stoi(idStr);
+        s.id = stoi(idStr);
         s.name = name;
-        s.gpa = std::stod(gpaStr);
+        s.gpa = stod(gpaStr);
 
         insertOne(s);
     }
